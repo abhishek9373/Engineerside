@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { app } from "./firebase/Firebase";
-import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 import { async } from "@firebase/util";
 import Login from "./Login";
 
-export default function Signup() {
-  // mongodb
+export default function Afterpopup(props) {
+  // useEffect(() => props.statup);
+
+  // const liftup = useMemo(() => {
+  //   props.data(true);
+  // }, []);
 
   const auth = getAuth(app);
   const usenavigate = useNavigate();
@@ -40,14 +48,17 @@ export default function Signup() {
       })
       .then((e) => {
         console.log(e.data);
-        createUserWithEmailAndPassword(auth, email, pass)
-          .then(() => {
-            alert("Account Created Login Now");
-            navigate("/");
-          })
-          .catch((error) => {
-            alert(error);
-          });
+        const provider = new GoogleAuthProvider();
+        if (e.data.id) {
+          sessionStorage.setItem('myid',e.data.id);
+          signInWithPopup(auth, provider)
+            .then(() => {
+              navigate("/home");
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -55,38 +66,7 @@ export default function Signup() {
   };
 
   // Signup with google
-  const provider = new GoogleAuthProvider();
-  function signupwithgoogle() {
-    const auth = getAuth(app);
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        const user = auth.currentUser;
-        localStorage.setItem('afterpopupemail',user.email);
-        localStorage.setItem('afterpopupName',user.displayName);
-        // name and email set to session storage
-        console.log("name and email set to session storage")
-        signOut(auth).then(()=>{
-          navigate("/signup/afterpopup");
-        })
-        
-        
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  }
-
   function setuser() {
-    const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, pass)
       .then(() => {
         // navigate("/");
@@ -163,10 +143,42 @@ export default function Signup() {
   ];
   const [domainforselect, setdomainforselect] = React.useState(Domain[null]);
 
+  // data from session storage
+
+  const afterpopup = useMemo(() => {
+    axios
+      .post("http://localhost:4000/afterpopupcheck", {
+        email: localStorage.getItem("afterpopupemail"),
+      })
+      .then((e) => {
+        if (e.data.term == true) {
+          const provider = new GoogleAuthProvider();
+          console.log(e.data.id);
+          signInWithPopup(auth, provider)
+            .then(() => {
+              console.log("here is err")
+              localStorage.setItem("myid", e.data.id);
+              props.data(false);
+              navigate("/home");
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else {
+          console.log("user not present");
+          setName(localStorage.getItem("afterpopupName"));
+          setemail(localStorage.getItem("afterpopupemail"));
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <div style={{ marginTop: "50px" }}>
       <h2 style={{ marginTop: "30px" }} className="text-2xl">
-        Sign Up
+        User Details
       </h2>
       <div
         style={{
@@ -197,6 +209,7 @@ export default function Signup() {
               onChange={(item) => {
                 setName(item.target.value);
               }}
+              value={Name}
             />
           </div>
           <div className="mb-3">
@@ -208,6 +221,7 @@ export default function Signup() {
               className="form-control"
               id="exampleInputEmail1"
               required
+              value={email}
               onChange={(item) => {
                 setemail(item.target.value);
               }}
@@ -326,21 +340,13 @@ export default function Signup() {
           <button onClick={senddt} className="btn btn-primary">
             Submit
           </button>
-          &nbsp;&nbsp;
-          <br />
-          <span>Already a user&nbsp;&nbsp;</span>
           <button
-            className="btn"
             onClick={() => {
-              navigate("/");
+              navigate("/signup");
             }}
+            className="btn btn-primary"
           >
-            Login
-          </button>
-          <br />
-          <br />
-          <button className="btn btn-danger" onClick={signupwithgoogle}>
-            Signin with google
+            Go Back
           </button>
         </form>
       </div>

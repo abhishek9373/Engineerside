@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { signInWithPhoneNumber } from "firebase/auth";
 
@@ -32,20 +34,25 @@ export default function Login(props) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("I am directly moving from signup");
-        if(Comp){
+        if (Comp) {
           setnondisplayloginpage(true);
         }
-        else{
-          console.log("loginpage")
+         else {
+          console.log("loginpage");
+          setnondisplayloginpage(true);
+          // navigate('/home')
+          //mahit nahi kadhu shakto
         }
-        navigate('/home');
-
+        // navigate("/home");
       } else {
         console.log("No user");
         setnondisplayloginpage(true);
       }
     });
   }, []);
+  useEffect(()=>{
+
+  })
 
   // login function
   const setuser = async () => {
@@ -61,7 +68,7 @@ export default function Login(props) {
             .then(() => {
               console.log("Login Success");
               console.log(e.data);
-              sessionStorage.setItem("myid", `${e.data.id}`);
+              localStorage.setItem("myid", `${e.data.id}`);
               setcheckstat(true);
               navigate("/home");
             })
@@ -78,81 +85,126 @@ export default function Login(props) {
       });
   };
 
+  // signinwith popup
+  const provider = new GoogleAuthProvider();
+  const signupwithgoogle = () => {
+
+    
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = auth.currentUser;
+        localStorage.setItem("afterpopupemail", user.email);
+        localStorage.setItem("afterpopupName", user.displayName);
+        axios
+          .post("http://localhost:4000/middle", {
+            email: user.email,
+          })
+          .then((e) => {
+            if (e.data.id) {
+              localStorage.setItem("myid", e.data.id);
+              navigate("/home");
+            } else {
+              signOut(auth).then(() => {
+                navigate("/signup/afterpopup");
+              });
+            }
+          });
+        // name and email set to session storage
+        console.log("name and email set to session storage");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
   return (
     <div className="">
-      <div>
-        {notdisplayloginpage ? (
-          <div>
-            {" "}
-            <h2 style={{ marginTop: "30px" }} className="text-2xl">
-              Login
-            </h2>
-            <div
-              style={{
-                display: "inline-flex",
-                width: "60%",
-                marginTop: "20px",
-                paddingBottom: "20px",
-                borderRadius: "7px",
-                padding: "20px",
-              }}
-              className="border border-primary"
-            >
-              <form
-                style={{ width: "75%", margin: "auto" }}
-                onSubmit={(e) => {
-                  e.preventDefault();
+      {Comp ? (
+        <Comp />
+      ) : (
+        <div>
+          {notdisplayloginpage ? (
+            <div>
+              {" "}
+              <h2 style={{ marginTop: "30px" }} className="text-2xl">
+                Login
+              </h2>
+              <div
+                style={{
+                  display: "inline-flex",
+                  width: "60%",
+                  marginTop: "20px",
+                  paddingBottom: "20px",
+                  borderRadius: "7px",
+                  padding: "20px",
                 }}
+                className="border border-primary"
               >
-                <div className="mb-3">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="exampleInputEmail1"
-                    onChange={(item) => {
-                      setemail(item.target.value);
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="exampleInputPassword1" className="form-label">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    onChange={(item) => {
-                      setpass(item.target.value);
-                    }}
-                  />
-                </div>
-                {/* onClick={setuser} */}
-                <button className="btn btn-primary" onClick={setuser}>
-                  Submit
-                </button>
-                &nbsp;&nbsp;
-                <br />
-                <span>Not a user&nbsp;&nbsp;</span>
-                {/* onClick={next} */}
-                <button
-                  className="btn"
-                  onClick={() => {
-                    navigate("/signup");
+                <form
+                  style={{ width: "75%", margin: "auto" }}
+                  onSubmit={(e) => {
+                    e.preventDefault();
                   }}
                 >
-                  Sign up
-                </button>
-              </form>
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="exampleInputEmail1"
+                      onChange={(item) => {
+                        setemail(item.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="exampleInputPassword1"
+                      className="form-label"
+                    >
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="exampleInputPassword1"
+                      onChange={(item) => {
+                        setpass(item.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* onClick={setuser} */}
+                  <button className="btn btn-primary" onClick={setuser}>
+                    Submit
+                  </button>
+                  &nbsp;&nbsp;
+                  <br />
+                  <span>Not a user&nbsp;&nbsp;</span>
+                  {/* onClick={next} */}
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      navigate("/signup");
+                    }}
+                  >
+                    Sign up
+                  </button>
+                  <br />
+                  or
+                  <button className="btn" onClick={signupwithgoogle}>
+                    Login With google
+                  </button>
+                </form>
+              </div>
             </div>
-          </div>
-        ) : (
-          <Loadingbar />
-        )}
-      </div>
+          ) : (
+            <Loadingbar />
+          )}
+        </div>
+      )}
     </div>
   );
 }

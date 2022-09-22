@@ -8,11 +8,13 @@ const Peoplecards = (props) => {
   const namee = props.name;
   const domaine = props.domain;
   const college = props.college;
+  const conditionforconnect = props.conditionforconnect;
+  const ifconnect = props.connected;
 
   const setusercokie = () => {
-    sessionStorage.setItem("usercardname",`${namee}`);
-    sessionStorage.setItem("usercarddomain",`${domaine}`);
-    sessionStorage.setItem("usercardcollege",`${college}`);
+    localStorage.setItem("usercardname", `${namee}`);
+    localStorage.setItem("usercarddomain", `${domaine}`);
+    localStorage.setItem("usercardcollege", `${college}`);
   };
 
   return (
@@ -40,7 +42,7 @@ const Peoplecards = (props) => {
           </CardContent>
           <CardContent>
             <Chip
-              label="Connect"
+              label={`${!conditionforconnect|| ifconnect ? "Message" : "Connect"}`}
               color="secondary"
               className="hover:cursor-pointer"
               icon={<Add />}

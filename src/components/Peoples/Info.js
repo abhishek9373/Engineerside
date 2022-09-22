@@ -1,17 +1,23 @@
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, ArrowBack } from "@mui/icons-material";
 import { Button, Chip, Paper, Typography } from "@mui/material";
 import { height } from "@mui/system";
 import React, { useState } from "react";
 
 const Info = () => {
+  const collegename = localStorage.getItem("usercardcollege");
+  const doaminname = localStorage.getItem("usercarddomain");
+  const name = localStorage.getItem("usercardname");
+  const otherskills = "";
 
-  const collegename = sessionStorage.getItem('usercardcollege')
-  const doaminname = sessionStorage.getItem('usercarddomain')
-  const name = sessionStorage.getItem('usercardname')
-  const otherskills = '';
+  const goback = () =>{
+    window.history.back(-1)
+  }
 
   return (
     <div>
+      <div className="text-left pl-2">
+        <ArrowBack onClick={goback} />
+      </div>
       <div className="flex mt-8 justify-center ">
         <div className=" h-40 w-40 rounded-full fixed top-44 md:mt-1 ">
           <AccountCircle sx={{ height: 180, width: 180 }} />
