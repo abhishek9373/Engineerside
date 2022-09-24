@@ -45,12 +45,14 @@ function App() {
           ></Route>
           <Route path="/peoples" element={<Middlewere Comp={Peoples} />} />
           <Route path="/posts" element={<Middlewere Comp={Posts} />} />
+          <Route path="/posts" element={<Middlewere Comp={Posts} />} />
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/home/websites" element={<Websites />}></Route>
           <Route path="/home/paidcourse" element={<Paidcourse />}></Route>
           <Route path="/home/books" element={<Books />}></Route>
           <Route path="/peoples/info" element={<Info />} />
           <Route path="/signup/afterpopup" element={<Afterpopup />} />
+
         </Routes>
       </BrowserRouter>
     </div>

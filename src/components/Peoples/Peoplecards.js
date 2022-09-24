@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardMedia, Paper } from "@mui/material";
 import React, { useState } from "react";
 import { Avatar, Chip } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Add, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const Peoplecards = (props) => {
@@ -16,6 +16,13 @@ const Peoplecards = (props) => {
     localStorage.setItem("usercarddomain", `${domaine}`);
     localStorage.setItem("usercardcollege", `${college}`);
   };
+  
+  const [showmessagewindow,setshowmessagewindow] = useState(false);
+
+  function hidepeoples (){
+    setshowmessagewindow(true);
+    props.makechange(true);
+  }
 
   return (
     <>
@@ -45,7 +52,9 @@ const Peoplecards = (props) => {
               label={`${!conditionforconnect|| ifconnect ? "Message" : "Connect"}`}
               color="secondary"
               className="hover:cursor-pointer"
-              icon={<Add />}
+              icon={!conditionforconnect|| ifconnect ? <Email/> : <Add />}
+              onClick={hidepeoples}
+              
             />
           </CardContent>
         </Paper>

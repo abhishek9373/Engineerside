@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Peoplecards from "./Peoples/Peoplecards";
 import { ArrowBack } from "@mui/icons-material";
+import Messages from "./Peoples/Messages";
+import { Navigate } from "react-router-dom";
 
 const Peoples = () => {
   // people storage
@@ -11,7 +13,7 @@ const Peoples = () => {
   const [myid, setmyid] = useState(localStorage.getItem("myid"));
   const [allpeoples, setallpeoples] = useState([]);
   const [howmanypeople, sethowmanypeople] = useState(true);
-  const[connected,setconnected] = useState();
+  const [connected, setconnected] = useState();
 
   const sethowpeople = () => {
     sethowmanypeople(false);
@@ -31,7 +33,7 @@ const Peoples = () => {
     axios
       .post(`http://localhost:4000/getpeoples/?all=${howmanypeople}`, {
         // myid: myid,
-        token:localStorage.getItem('auth')
+        token: localStorage.getItem("auth"),
       })
       .then((e) => {
         // all courses
@@ -39,8 +41,8 @@ const Peoples = () => {
           // console.log("no data");
           console.log(e.data.term);
           setallpeoples(e.data.data);
-          console.log(e.data.connectionarray[1])
-          setconnected(e.data.connectionarray)
+          console.log(e.data.connectionarray[1]);
+          setconnected(e.data.connectionarray);
         } else {
           setallpeoples(null);
         }
@@ -51,17 +53,30 @@ const Peoples = () => {
   }, [howmanypeople]);
 
   // go back function
-  const goback = () =>{
-    window.history.back(-1)
+  const goback = () => {
+    if(hidewindow){
+      sethidewindow(false)
+      // sethowmanypeople(howmanypeople ? false : true)
+      // Navigate('/peoples')
+    }
+    else{
+      window.history.back(-1);
+    }
+  };
+  const [hidewindow, sethidewindow] = useState(false);
+
+  function getdatafromcard(data) {
+    sethidewindow(true);
+    // alert(data);
   }
-  const[tmp,settmp] = useState(0);
 
   return (
     <div>
+      <div className="text-left pl-2">
+        <ArrowBack onClick={goback} />
+      </div>
+      {hidewindow ? <Messages/> : <div className={`${hidewindow ? "hidden" : ""}`}>
       <div>
-        <div className="text-left pl-2">
-          <ArrowBack onClick={goback}/>
-        </div>
         <div className="flex justify-center m-4">
           <ButtonGroup>
             <Button variant="contained" onClick={sethowpeople2}>
@@ -91,15 +106,18 @@ const Peoples = () => {
                     domain={it.domain}
                     college={it.college}
                     conditionforconnect={howmanypeople}
-                    connected={connected[i]==it.id?true:false}
+                    connected={connected[i] == it.id ? true : false}
+                    makechange={getdatafromcard}
                   />
-                  {/* {connected[i]==it.id?settmp(tmp+1):''} */}
                 </div>
               );
             })}
           </div>
         </div>
       </div>
+      </div>}
+      
+      
     </div>
   );
 };
