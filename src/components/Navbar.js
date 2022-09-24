@@ -1,5 +1,5 @@
 import { AccountBox } from "@mui/icons-material";
-import { Badge, Button, ButtonGroup } from "@mui/material";
+import { Badge, Button, ButtonGroup, Hidden } from "@mui/material";
 import { height } from "@mui/system";
 import { getAuth, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -14,11 +14,25 @@ const Navbar = (props) => {
   //
 
   const auth = getAuth(app);
+  const [hidemenu,sethidemenu] = useState(false);
+
+  useEffect(()=>{
+    console.log("from navbar")
+    if(localStorage.getItem('auth')!= 'null'){
+      sethidemenu(true);
+    }
+  })
 
   const signout = async () => {
-    await signOut(auth);
+    // if (localStorage.getItem("auth") == null) {
+
+    // } else {
+    localStorage.setItem("auth", "null");
+    sethidemenu(false);
     navigate("/");
+    // }
   };
+
 
   const [temp, settemp] = useState(false);
   const [hidenbox, sethidenbox] = useState(true);
@@ -46,7 +60,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
       <div className="container-fluid">
-        <Link className="navbar-brand text-3xl" to="/home">
+        <Link className={`navbar-brand text-3xl ${!hidemenu ? 'hidden' : ''}`} to="/home" id="i1">
           Engineerside
         </Link>
 
@@ -90,18 +104,19 @@ const Navbar = (props) => {
           id="navbarNavAltMarkup"
         >
           <div className="navbar-nav m-6">
-            <Link className="nav-link m-2" to="/peoples">
+            <Link className={`nav-link m-2 ${!hidemenu ? 'hidden' : ''}`} to="/peoples" id="i2">
               Peoples
             </Link>
-            <Link className="nav-link m-2" to="/posts">
+            <Link className={`nav-link m-2 ${!hidemenu ? 'hidden' : ''}`} to="/posts" id="i3">
               Posts
             </Link>
-            <Link className="nav-link m-2" to="/home">
+            <Link className={`nav-link m-2 ${!hidemenu ? 'hidden' : ''}`} to="/home" id="i4">
               Projects
             </Link>
             <span
-              className="nav-link m-2 hover:cursor-pointer"
+              className={`nav-link m-2 hover:cursor-pointer ${!hidemenu ? 'hidden' : ''}`}
               onClick={signout}
+              id="i5"
             >
               Signout
             </span>

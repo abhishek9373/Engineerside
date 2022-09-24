@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { app } from "./firebase/Firebase";
-import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
@@ -40,14 +44,25 @@ export default function Signup() {
       })
       .then((e) => {
         console.log(e.data);
-        createUserWithEmailAndPassword(auth, email, pass)
-          .then(() => {
-            alert("Account Created Login Now");
-            navigate("/");
-          })
-          .catch((error) => {
-            alert(error);
-          });
+        if(e.data){
+          console.log(e.data)
+          localStorage.setItem('auth',e.data);
+          console.log("token save to localstorage")
+          navigate('/home')
+        }
+        else{
+          alert("you have not followed Valid Syntax!")
+        }
+
+        // old code
+        // createUserWithEmailAndPassword(auth, email, pass)
+        //   .then(() => {
+        //     alert("Account Created Login Now");
+        //     navigate("/");
+        //   })
+        //   .catch((error) => {
+        //     alert(error);
+        //   });
       })
       .catch((e) => {
         console.log(e);
@@ -60,18 +75,36 @@ export default function Signup() {
     const auth = getAuth(app);
     signInWithPopup(auth, provider)
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;
         const user = auth.currentUser;
-        localStorage.setItem('afterpopupemail',user.email);
-        localStorage.setItem('afterpopupName',user.displayName);
-        // name and email set to session storage
-        console.log("name and email set to session storage")
-        signOut(auth).then(()=>{
-          navigate("/signup/afterpopup");
-        })
-        
-        
+        // new code
+        axios
+          .post("http://localhost:4000/middle", {
+            email: user.email,
+          })
+          .then((e) => {
+            if (e.data) {
+              localStorage.setItem("auth", e.data);
+              console.log(e.data)
+              console.log("from sign up to home")
+              localStorage.setItem('checkfortrue',true)
+              // window.location.reload();
+              navigate("/home");
+            } else {
+              signOut(auth).then(() => {
+                navigate("/signup/afterpopup");
+              });
+            }
+          });
+
+          // old code
+        // localStorage.setItem("afterpopupemail", user.email);
+        // localStorage.setItem("afterpopupName", user.displayName);
+        // // name and email set to session storage
+        // console.log("name and email set to session storage");
+        // signOut(auth).then(() => {
+        //   navigate("/signup/afterpopup");
+        // });
       })
       .catch((error) => {
         // Handle Errors here.
@@ -85,17 +118,6 @@ export default function Signup() {
       });
   }
 
-  function setuser() {
-    const auth = getAuth(app);
-    createUserWithEmailAndPassword(auth, email, pass)
-      .then(() => {
-        // navigate("/");
-        console.log("login success");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   const navigate = useNavigate();
   //storage

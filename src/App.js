@@ -15,20 +15,19 @@ import Afterpopup from "./components/Afterpopup";
 import { useState } from "react";
 
 function App() {
-
   // const navigate = useNavigate();
   // const [cond,setcond] = useState();
 
   // function data (dt){
   //   setcond(dt);
   // }
- 
+
   return (
-    <div className="App" >
+    <div className="App">
       <BrowserRouter>
         {<Navbar />}
         <Routes>
-          <Route path="/" element={<Middlewere Comp={Login} />}></Route>
+          {/* <Route path="/" element={<Middlewere Comp={Login} />}></Route>
           <Route path="/home" element={<Middlewere Comp={Youtubevideo} />}></Route>
           <Route path="/peoples" element={<Middlewere Comp={Peoples} />} />
           <Route path="/posts" element={<Middlewere Comp={Posts} />} />         
@@ -37,8 +36,22 @@ function App() {
           <Route path="/home/paidcourse" element={<Paidcourse />}></Route>
           <Route path="/home/books" element={<Books />}></Route>
           <Route path="/peoples/info" element={<Info/>}/>
-          <Route path="/signup/afterpopup" element={<Afterpopup />}/>
-          </Routes>
+          <Route path="/signup/afterpopup" element={<Afterpopup />}/> */}
+
+          <Route path="/" element={<Login/>}></Route>
+          <Route
+            path="/home"
+            element={<Middlewere Comp={Youtubevideo} />}
+          ></Route>
+          <Route path="/peoples" element={<Middlewere Comp={Peoples} />} />
+          <Route path="/posts" element={<Middlewere Comp={Posts} />} />
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/home/websites" element={<Websites />}></Route>
+          <Route path="/home/paidcourse" element={<Paidcourse />}></Route>
+          <Route path="/home/books" element={<Books />}></Route>
+          <Route path="/peoples/info" element={<Info />} />
+          <Route path="/signup/afterpopup" element={<Afterpopup />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

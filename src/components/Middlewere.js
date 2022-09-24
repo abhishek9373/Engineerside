@@ -15,21 +15,70 @@ const Middlewere = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        if (props.data == true) {
-          navigate("/signup/afterpopup");
-        } else {
-          setshow(true);
-        }
-        navigate("/home");
-      } else {
-        setshow(false);
-      }
-    });
-  }, []);
+    if (localStorage.getItem("auth") != 'null') {
+      axios
+        .post("http://localhost:4000/middlewarecheck", {
+          token: localStorage.getItem("auth"),
+        })
+        .then((e) => {
+          if (e.data) {
+            console.log("Comp is visible")
+            setshow(true);
 
-  return <div>{show ? <Comp /> : <Login />}</div>;
+
+
+
+            // if (props.data == true) {
+            //   navigate("/signup/afterpopup");
+            // } else {
+             
+
+            // old code
+            //  if(localStorage.getItem('checkfortrue') == 'true'){
+            //   // setshow(true);
+            //   localStorage.setItem('checkfortrue',false)
+            //   console.log("from middle to home")
+            //   navigate('/home')
+            //  }
+            //  else if(Comp){
+            //   setshow(true)
+            //  }
+
+
+              
+              // navigate('/home')
+            // }
+          }
+          else{
+            localStorage.setItem('auth',null);
+            console.log("problem")
+            // window.location.reload();
+            navigate('/');
+          }
+        }).catch((e)=>{
+          console.log(e)
+        })
+    } else {
+      setshow(false)
+      navigate('/');
+      // alert("No cockie found Login Again!");
+    }
+
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     if (props.data == true) {
+    //       navigate("/signup/afterpopup");
+    //     } else {
+    //       setshow(true);
+    //     }
+    //     navigate("/home");
+    //   } else {
+    //     setshow(false);
+    //   }
+    // });
+  },[show]);
+
+  return <>{show ? <Comp /> : ''}</>;
 };
 
 export default Middlewere;

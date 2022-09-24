@@ -25,14 +25,18 @@ const Peoples = () => {
 
   // retrive peoples from mongodb
   const getpeoples = useMemo(() => {
+    // if(localStorage.getItem('auth') != null){
+
+    // }
     axios
       .post(`http://localhost:4000/getpeoples/?all=${howmanypeople}`, {
-        myid: myid,
+        // myid: myid,
+        token:localStorage.getItem('auth')
       })
       .then((e) => {
         // all courses
         if (e.data.term == 1) {
-          console.log("no data");
+          // console.log("no data");
           console.log(e.data.term);
           setallpeoples(e.data.data);
           console.log(e.data.connectionarray[1])

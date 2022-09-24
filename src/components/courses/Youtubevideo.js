@@ -77,7 +77,7 @@ const Youtubevideo = () => {
                   </div>
                 ))}
 
-                <div className="">
+                {/* <div className="">
                   <ReactPlayer
                     url="https://www.youtube.com/watch?v=WG6w2THNcRc"
                     controls={true}
@@ -89,7 +89,7 @@ const Youtubevideo = () => {
                   <span className="font-bold">Html,CSS In 2 Hours</span>
                   <br />
                   <Button>Start Course</Button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

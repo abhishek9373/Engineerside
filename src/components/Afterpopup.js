@@ -47,18 +47,28 @@ export default function Afterpopup(props) {
         repass,
       })
       .then((e) => {
-        console.log(e.data);
-        const provider = new GoogleAuthProvider();
-        if (e.data.id) {
-          sessionStorage.setItem('myid',e.data.id);
-          signInWithPopup(auth, provider)
-            .then(() => {
-              navigate("/home");
-            })
-            .catch((error) => {
-              alert(error);
-            });
+        // new code
+        if(e.data){
+          localStorage.setItem('auth',e.data);
+          console.log("Account created success fully");
+          navigate('/home');
         }
+        else{
+          alert("Please follow Validation techniques!")
+        }
+
+        // old code
+        // const provider = new GoogleAuthProvider();
+        // if (e.data.id) {
+        //   sessionStorage.setItem('myid',e.data.id);
+        //   signInWithPopup(auth, provider)
+        //     .then(() => {
+        //       navigate("/home");
+        //     })
+        //     .catch((error) => {
+        //       alert(error);
+        //     });
+        // }
       })
       .catch((e) => {
         console.log(e);
