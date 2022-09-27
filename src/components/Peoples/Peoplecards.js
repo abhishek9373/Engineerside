@@ -10,6 +10,7 @@ const Peoplecards = (props) => {
   const college = props.college;
   const conditionforconnect = props.conditionforconnect;
   const ifconnect = props.connected;
+  const id = props.id;
 
   const setusercokie = () => {
     localStorage.setItem("usercardname", `${namee}`);
@@ -21,7 +22,7 @@ const Peoplecards = (props) => {
 
   function hidepeoples (){
     setshowmessagewindow(true);
-    props.makechange(true);
+    props.makechange(true,id);
   }
 
   return (
@@ -54,7 +55,6 @@ const Peoplecards = (props) => {
               className="hover:cursor-pointer"
               icon={!conditionforconnect|| ifconnect ? <Email/> : <Add />}
               onClick={hidepeoples}
-              
             />
           </CardContent>
         </Paper>

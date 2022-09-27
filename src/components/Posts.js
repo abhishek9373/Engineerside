@@ -20,7 +20,7 @@ const Posts = () => {
         {/* posts */}
 
         <Container className="w-md bg-gradient-to-r from-gray-400 via-gray-600 to-blue-800 rounded ">
-          refer
+          your chats appear here
         </Container>
       </div>
 
@@ -30,7 +30,7 @@ const Posts = () => {
       >
         <div className="fixed bottom-0 p-4">
           <ButtonGroup>
-            <EmojiEmotions sx={{color:'yellow' ,bgcolor:'black',height:49,width:49}}  className='rounded-full'/>
+            <EmojiEmotions sx={{color:'yellow',bgcolor:'black',height:49,width:49}}  className='rounded-full'/>
             <input
               type=""
               name=""

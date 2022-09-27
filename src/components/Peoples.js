@@ -64,18 +64,19 @@ const Peoples = () => {
     }
   };
   const [hidewindow, sethidewindow] = useState(false);
-
-  function getdatafromcard(data) {
-    sethidewindow(true);
+  const [idtomessage,setidtomessage] = useState();
+  function getdatafromcard(data,id) {
+    setidtomessage(id);
+    sethidewindow(data);
     // alert(data);
   }
 
   return (
     <div>
       <div className="text-left pl-2">
-        <ArrowBack onClick={goback} />
+        <ArrowBack onClick={goback}  className='cursor-pointer'/>
       </div>
-      {hidewindow ? <Messages/> : <div className={`${hidewindow ? "hidden" : ""}`}>
+      {hidewindow ? <Messages id={idtomessage}/> : <div className={`${hidewindow ? "hidden" : ""}`}>
       <div>
         <div className="flex justify-center m-4">
           <ButtonGroup>
@@ -108,6 +109,7 @@ const Peoples = () => {
                     conditionforconnect={howmanypeople}
                     connected={connected[i] == it.id ? true : false}
                     makechange={getdatafromcard}
+                    id = {it.id}
                   />
                 </div>
               );
