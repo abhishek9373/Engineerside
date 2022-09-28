@@ -12,17 +12,17 @@ const Peoplecards = (props) => {
   const ifconnect = props.connected;
   const id = props.id;
 
-  const setusercokie = () => {
-    localStorage.setItem("usercardname", `${namee}`);
-    localStorage.setItem("usercarddomain", `${domaine}`);
-    localStorage.setItem("usercardcollege", `${college}`);
-  };
+  // const setusercokie = () => {
+  //   localStorage.setItem("usercardname", `${namee}`);
+  //   localStorage.setItem("usercarddomain", `${domaine}`);
+  //   localStorage.setItem("usercardcollege", `${college}`);
+  // };
   
   const [showmessagewindow,setshowmessagewindow] = useState(false);
 
   function hidepeoples (){
     setshowmessagewindow(true);
-    props.makechange(true,id);
+    props.makechange(true,id,namee);
   }
 
   return (
@@ -36,7 +36,7 @@ const Peoplecards = (props) => {
           />
         </CardMedia>
         <Paper>
-          <div onClick={setusercokie}>
+          <div>
             <Link to="/peoples/info" style={{ textDecoration: "none" }}>
               <CardHeader
                 title={`${namee}`}

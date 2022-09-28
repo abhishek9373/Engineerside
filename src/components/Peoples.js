@@ -14,6 +14,7 @@ const Peoples = () => {
   const [allpeoples, setallpeoples] = useState([]);
   const [howmanypeople, sethowmanypeople] = useState(true);
   const [connected, setconnected] = useState();
+  const [ntomsg,setntomsg] = useState();
 
   const sethowpeople = () => {
     sethowmanypeople(false);
@@ -65,9 +66,10 @@ const Peoples = () => {
   };
   const [hidewindow, sethidewindow] = useState(false);
   const [idtomessage,setidtomessage] = useState();
-  function getdatafromcard(data,id) {
+  function getdatafromcard(data,id,namee) {
     setidtomessage(id);
     sethidewindow(data);
+    setntomsg(namee)
     // alert(data);
   }
 
@@ -76,7 +78,7 @@ const Peoples = () => {
       <div className="text-left pl-2">
         <ArrowBack onClick={goback}  className='cursor-pointer'/>
       </div>
-      {hidewindow ? <Messages id={idtomessage}/> : <div className={`${hidewindow ? "hidden" : ""}`}>
+      {hidewindow ? <Messages id={idtomessage} name={ntomsg}/> : <div className={`${hidewindow ? "hidden" : ""}`}>
       <div>
         <div className="flex justify-center m-4">
           <ButtonGroup>
