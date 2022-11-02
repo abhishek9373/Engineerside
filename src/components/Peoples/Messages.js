@@ -1,4 +1,5 @@
 import { Add, DoubleArrow, EmojiEmotions, Send } from "@mui/icons-material";
+import { useRef } from "react";
 import "./Message.css";
 import io from "socket.io-client";
 import {
@@ -27,16 +28,9 @@ const Messages = (props) => {
   const [rid, setrid] = useState(props.id);
   const [username, setusername] = useState();
   const uname = props.name;
-  // connect socket with server;
-
-  // emit event using usememo to set users socketid to database
-
-  // const memo = useMemo(() => {
-  //   // get id of present user from backend
-  //   // get all chats when page get loaded
-  // }, [rid]);
 
   useEffect(() => {
+    
     axios
       .post("http://localhost:4000/getmyid", {
         token: localStorage.getItem("auth"),
@@ -68,8 +62,6 @@ const Messages = (props) => {
   // accept chats
   useEffect(() => {
     socket.on("private-message", (data) => {
-      // let chats = chatdata;
-      // chats.push(data.schat);
       setchatdata((p) => [...chatdata, data.schat]);
       console.log(chatdata);
     });
@@ -94,14 +86,6 @@ const Messages = (props) => {
     }
   }
 
-  // const st = useMemo(() => {
-  //   let inputs = document.getElementById("reset");
-  //   inputs.addEventListener("keydown", function (e) {
-  //     if (e.key === "Enter") {
-  //       sendchats();
-  //     }
-  //   });
-  // },[]);
 
   return (
     <div
@@ -132,10 +116,10 @@ const Messages = (props) => {
             <h1 className="mt-12 text-3xl">No Messages..!</h1>
           </div>
         ) : (
-          <Container className="rounded overflow-y-auto pl-2 pr-2">
+          <Container className="rounded overflow-y-auto pl-2 pr-2" id="scrollit">
             {chatdata.map((data, i) => {
               return (
-                <div key={i} className="font-bold font-sans">
+                <div key={i} className="font-bold font-sans" >
                   {data.sid == myid ? (
                     <div className="flex justify-end  pl-3 mt-2">
                       <div
@@ -156,6 +140,7 @@ const Messages = (props) => {
                     </div>
                   )}
                 </div>
+                
               );
             })}
           </Container>

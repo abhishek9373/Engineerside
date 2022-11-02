@@ -13,6 +13,7 @@ import Books from "./components/courses/Books";
 import Info from "./components/Peoples/Info";
 import Afterpopup from "./components/Afterpopup";
 import { useState } from "react";
+import Messages from "./components/Peoples/Messages";
 
 function App() {
   // const navigate = useNavigate();
@@ -25,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {<Navbar />}
+        <Navbar />
         <Routes>
           {/* <Route path="/" element={<Middlewere Comp={Login} />}></Route>
           <Route path="/home" element={<Middlewere Comp={Youtubevideo} />}></Route>
@@ -38,7 +39,7 @@ function App() {
           <Route path="/peoples/info" element={<Info/>}/>
           <Route path="/signup/afterpopup" element={<Afterpopup />}/> */}
 
-          <Route path="/" element={<Login/>}></Route>
+          <Route path="/" element={<Login />}></Route>
           <Route
             path="/home"
             element={<Middlewere Comp={Youtubevideo} />}
@@ -46,13 +47,13 @@ function App() {
           <Route path="/peoples" element={<Middlewere Comp={Peoples} />} />
           <Route path="/posts" element={<Middlewere Comp={Posts} />} />
           <Route path="/posts" element={<Middlewere Comp={Posts} />} />
+          <Route path="/messages" element={<Middlewere Comp={Messages} />} />
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/home/websites" element={<Websites />}></Route>
           <Route path="/home/paidcourse" element={<Paidcourse />}></Route>
           <Route path="/home/books" element={<Books />}></Route>
           <Route path="/peoples/info" element={<Info />} />
           <Route path="/signup/afterpopup" element={<Afterpopup />} />
-
         </Routes>
       </BrowserRouter>
     </div>

@@ -19,8 +19,17 @@ const Posts = () => {
 
         {/* posts */}
 
-        <Container className="w-md bg-gradient-to-r from-gray-400 via-gray-600 to-blue-800 rounded ">
-          your chats appear here
+        <Container className="w-md rounded flex p-1">
+          <div className="flex justify-start">
+            <div>
+              hii
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div>
+              hello
+            </div>
+          </div>
         </Container>
       </div>
 

@@ -24,30 +24,6 @@ const Middlewere = (props) => {
           if (e.data) {
             console.log("Comp is visible")
             setshow(true);
-
-
-
-
-            // if (props.data == true) {
-            //   navigate("/signup/afterpopup");
-            // } else {
-             
-
-            // old code
-            //  if(localStorage.getItem('checkfortrue') == 'true'){
-            //   // setshow(true);
-            //   localStorage.setItem('checkfortrue',false)
-            //   console.log("from middle to home")
-            //   navigate('/home')
-            //  }
-            //  else if(Comp){
-            //   setshow(true)
-            //  }
-
-
-              
-              // navigate('/home')
-            // }
           }
           else{
             localStorage.setItem('auth',null);
@@ -60,22 +36,7 @@ const Middlewere = (props) => {
         })
     } else {
       setshow(false)
-      navigate('/');
-      // alert("No cockie found Login Again!");
-    }
-
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     if (props.data == true) {
-    //       navigate("/signup/afterpopup");
-    //     } else {
-    //       setshow(true);
-    //     }
-    //     navigate("/home");
-    //   } else {
-    //     setshow(false);
-    //   }
-    // });
+      navigate('/');    }
   },[show]);
 
   return <>{show ? <Comp /> : ''}</>;

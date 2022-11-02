@@ -12,11 +12,6 @@ const Peoplecards = (props) => {
   const ifconnect = props.connected;
   const id = props.id;
 
-  // const setusercokie = () => {
-  //   localStorage.setItem("usercardname", `${namee}`);
-  //   localStorage.setItem("usercarddomain", `${domaine}`);
-  //   localStorage.setItem("usercardcollege", `${college}`);
-  // };
   
   const [showmessagewindow,setshowmessagewindow] = useState(false);
 

@@ -63,15 +63,15 @@ const Youtubevideo = () => {
                 {coursedata.map((item, i) => (
                   <div className="" key={i}>
                     <ReactPlayer
-                      url="https://www.youtube.com/watch?v=gfDE2a7MKjA"
+                      url={`${item.url}`}
                       width={380}
                       height={300}
                       controls={true}
                       pip={true}
                     />
-                    <span className="font-bold text-2xl">Code With Harry</span>
+                    <span className="font-bold text-2xl">{item.title}</span>
                     <br />
-                    <span className="font-bold">Html,CSS In 2 Hours</span>
+                    <span className="font-bold">{item.description}</span>
                     <br />
                     <Button>Start Course</Button>
                   </div>

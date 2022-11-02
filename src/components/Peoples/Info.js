@@ -19,7 +19,7 @@ const Info = () => {
         <ArrowBack onClick={goback} />
       </div>
       <div className="flex mt-8 justify-center ">
-        <div className=" h-40 w-40 rounded-full fixed top-44 md:mt-1 ">
+        <div className=" h-40 w-40 rounded-full fixed top-44 ">
           <AccountCircle sx={{ height: 180, width: 180 }} />
         </div>
       </div>

@@ -29,44 +29,46 @@ export default function Signup() {
         contact +
         repass
     );
-
-    axios
-      .post("http://localhost:4000/getdata", {
-        Name,
-        email,
-        pass,
-        depart,
-        yearofstudy,
-        domain,
-        college,
-        contact,
-        repass,
-      })
-      .then((e) => {
-        console.log(e.data);
-        if(e.data){
-          console.log(e.data)
-          localStorage.setItem('auth',e.data);
-          console.log("token save to localstorage")
-          navigate('/home')
-        }
-        else{
-          alert("you have not followed Valid Syntax!")
-        }
-
-        // old code
-        // createUserWithEmailAndPassword(auth, email, pass)
-        //   .then(() => {
-        //     alert("Account Created Login Now");
-        //     navigate("/");
-        //   })
-        //   .catch((error) => {
-        //     alert(error);
-        //   });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (
+      (Name != null) &
+      (email != null) &
+      (pass != null) &
+      (depart != null) &
+      (yearofstudy != null) &
+      (domain != null) &
+      (college != null) &
+      (contact != null) &
+      (repass != null)
+    ) {
+      axios
+        .post("http://localhost:4000/getdata", {
+          Name,
+          email,
+          pass,
+          depart,
+          yearofstudy,
+          domain,
+          college,
+          contact,
+          repass,
+        })
+        .then((e) => {
+          console.log(e.data);
+          if (e.data) {
+            console.log(e.data);
+            localStorage.setItem("auth", e.data);
+            console.log("token save to localstorage");
+            navigate("/home");
+          } else {
+            alert("you have not followed Valid Syntax!");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      alert("Details should not be Empty");
+    }
   };
 
   // Signup with google
@@ -85,9 +87,9 @@ export default function Signup() {
           .then((e) => {
             if (e.data) {
               localStorage.setItem("auth", e.data);
-              console.log(e.data)
-              console.log("from sign up to home")
-              localStorage.setItem('checkfortrue',true)
+              console.log(e.data);
+              console.log("from sign up to home");
+              localStorage.setItem("checkfortrue", true);
               // window.location.reload();
               navigate("/home");
             } else {
@@ -96,15 +98,6 @@ export default function Signup() {
               });
             }
           });
-
-          // old code
-        // localStorage.setItem("afterpopupemail", user.email);
-        // localStorage.setItem("afterpopupName", user.displayName);
-        // // name and email set to session storage
-        // console.log("name and email set to session storage");
-        // signOut(auth).then(() => {
-        //   navigate("/signup/afterpopup");
-        // });
       })
       .catch((error) => {
         // Handle Errors here.
@@ -118,18 +111,17 @@ export default function Signup() {
       });
   }
 
-
   const navigate = useNavigate();
   //storage
-  const [Name, setName] = useState("");
-  const [email, setemail] = useState("");
-  const [pass, setpass] = useState("");
-  const [depart, setdepartment] = useState("");
-  const [yearofstudy, setyearofstudy] = useState("");
-  const [domain, setdomain] = useState("");
-  const [college, setcollege] = useState("");
-  const [contact, setcontact] = useState("");
-  const [repass, setrepass] = useState("");
+  const [Name, setName] = useState(null);
+  const [email, setemail] = useState(null);
+  const [pass, setpass] = useState(null);
+  const [depart, setdepartment] = useState(null);
+  const [yearofstudy, setyearofstudy] = useState(null);
+  const [domain, setdomain] = useState(null);
+  const [college, setcollege] = useState(null);
+  const [contact, setcontact] = useState(null);
+  const [repass, setrepass] = useState(null);
 
   function next() {
     navigate("/");
